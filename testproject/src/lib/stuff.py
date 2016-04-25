@@ -8,7 +8,9 @@ class HelloWorldClass(object):
     
     @staticmethod
     def helloWorld():
-        print "Hello World!"
+        message = "Hello World!"
+        #print message
+        return message
 
 if __name__ == '__main__':
     HelloWorldClass.helloWorld()
