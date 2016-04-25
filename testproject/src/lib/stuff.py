@@ -8,7 +8,7 @@ class HelloWorldClass(object):
     
     @staticmethod
     def helloWorld():
-        message = "Hello World!"
+        message = "Hello World?"
         #print message
         return message
 
