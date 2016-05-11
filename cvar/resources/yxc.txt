@@ -1,0 +1,27 @@
+
+Problem: 
+- Name: 
+  Lower bound: -inf
+  Upper bound: 6248844.62895
+  Number of objectives: 1
+  Number of constraints: 11
+  Number of variables: 15
+  Number of binary variables: 0
+  Number of integer variables: 0
+  Number of continuous variables: 15
+  Number of nonzeros: 1
+  Sense: minimize
+Solver: 
+- Status: warning
+  Return code: 0
+  Message: Unable to satisfy optimality tolerances; a sub-optimal solution is available.
+  User time: 0.0
+  System time: 0.0
+  Termination condition: other
+  Termination message: Unable to satisfy optimality tolerances; a sub-optimal solution is available.
+  Error rc: 0
+  Time: 0.128999948502
+Solution: 
+- number of solutions: 0
+  number of solutions displayed: 0
+

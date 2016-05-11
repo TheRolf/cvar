@@ -1,0 +1,10 @@
+model model.mod
+data data1.dat
+option solver gurobi;
+
+solve;
+
+option display_precision 0;
+display x;
+display u;
+display L;
