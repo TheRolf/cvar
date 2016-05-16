@@ -23,10 +23,7 @@ class ExcelWriter(object):
         Range((11, 2)).value = "{0:0.2f}".format(time) + " seconds"
         
     @staticmethod
-    def write(model, result, times=None):
-        #sheet_names = [i.name for i in Sheet.all()]
-        #if 'results' not in sheet_names:
-        #    Sheet.add("results")
+    def write(model, result):
         Sheet("parameters").activate()
         Range((7,1)).value = "VaR"
         Range((8,1)).value = model.L_var()

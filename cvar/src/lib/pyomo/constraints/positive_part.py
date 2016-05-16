@@ -7,7 +7,7 @@ from pyomo.core.base.constraint import Constraint
 
 class PositivePart(object):
     
-    X = None
+    X = True
     
     @staticmethod
     def add(model):
@@ -21,11 +21,11 @@ class PositivePart(object):
             #X = True
             if PositivePart.X:
                 return sum( (1 - model.epsilon_param*(sum( model.A_params[f,t]*model.x_vars[f] for f in model.F ) - model.D_params[t]))*model.y_params[s,t]*(sum( model.A_params[f,t]*model.x_vars[f] for f in model.F ) - model.D_params[t])\
-                            for t in model.TH )
+                            for t in model.H )
             
             else:
                 return sum( model.y_params[s,t]*(sum( model.A_params[f,t]*model.x_vars[f] for f in model.F ) - model.D_params[t])\
-                            for t in model.TH )
+                            for t in model.H )
       
 
         

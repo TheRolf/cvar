@@ -44,10 +44,6 @@ class ExcelReaderFunctions(object):
         return Range("parameters", "B2").value
     
     @staticmethod
-    def importT():
-        return int(Range("parameters", "B3").value)
-    
-    @staticmethod
     def importHedgingPeriodNames():
         return Range("demand", "A2").vertical.value
     

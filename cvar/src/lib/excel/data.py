@@ -13,7 +13,6 @@ class Data(object):
         self.numberOfHpfcVectors = 0
         self.alpha = 0
         self.epsilon0 = 0
-        self.T = 0
                 
         self.demand = {}
         self.forwardCharVectors = {}

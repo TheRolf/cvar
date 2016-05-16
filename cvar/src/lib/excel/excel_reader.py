@@ -21,7 +21,6 @@ class ExcelReader(object):
         
         data.alpha = ExcelReaderFunctions.importAlpha()
         data.epsilon0 = ExcelReaderFunctions.importEpsilon()
-        data.T = ExcelReaderFunctions.importT()
        
         data.demand, data.numberOfTimeIntervals, data.demandAsArray = ExcelReaderFunctions.importDemand()
         data.forwardCharVectors, data.numberOfForwardProducts = ExcelReaderFunctions.importForwardCharVectors()

@@ -37,8 +37,6 @@ class TestExcelReader(unittest.TestCase):
                           "Parameter 'alpha' doesn't match (preferred: " + str(alpha) + ", actual:" + str(self.data.alpha) + ")")
         self.assertEquals(self.data.epsilon0, 0.01,
                           "Parameter 'epsilon0' doesn't match (preferred: " + str(epsilon0) + ", actual:" + str(self.data.epsilon0) + ")")
-        self.assertEquals(self.data.T, 0,
-                          "Parameter 'T' doesn't match (preferred: " + str(T) + ", actual:" + str(self.data.T) + ")")
         
     def test_1dArrayParameters(self):
         demand = [12, 8, 10, 7, 7, 13, 8, 18, 21, 23, 21, 17, 19, 19, 17, 20, 23, 17, 23, 14, 12, 8, 13, 7]

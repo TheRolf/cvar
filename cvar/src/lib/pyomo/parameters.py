@@ -14,12 +14,6 @@ class Parameters(object):
     
     @staticmethod
     def add(model, data):
-        if data.T > data.numberOfTimeIntervals:
-            raise Tools.OutOfHedgingPeriodException
-#         if data.epsilon0 == 0:
-#             raise Tools.EpsilonIsZeroException
-            pass
-        
         model.h = Param(domain=NonNegativeIntegers, initialize=data.numberOfTimeIntervals)
         model.f = Param(domain=NonNegativeIntegers, initialize=data.numberOfForwardProducts)
         model.s = Param(domain=NonNegativeIntegers, initialize=data.numberOfHpfcVectors)
@@ -44,9 +38,5 @@ class Parameters(object):
         model.y_params = Param(model.S, model.H, domain=Reals, initialize=data.hpfcVectors)
         # alpha:   significance level
         model.alpha_param = Param(domain=NonNegativeReals, initialize=data.alpha)
-        
-        model.T_param = Param(domain=NonNegativeIntegers, initialize=data.T)
-        # set T: planning horizon
-        model.TH = RangeSet(model.T_param+1, model.h)
         return model
     

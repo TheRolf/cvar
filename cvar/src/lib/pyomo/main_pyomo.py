@@ -15,7 +15,7 @@ from lib.pyomo.initialiser import Initialiser
 from root import Root
 from tools import Tools
 from lib.excel.plotter import Plotter
-from pyutilib.common import ApplicationError
+from pyutilib.common import ApplicationError  # @UnresolvedImport
 
 class MainPyomo(object):
 
@@ -24,7 +24,7 @@ class MainPyomo(object):
         t0 =  time()
         # EXCEL-bol hivva
         if len(args) == 0:
-            data = ExcelReader.read(Data())
+            data = ExcelReader.read(Data())[0]
             ExcelWriter.clear(data)
         # ECLIPSE-bol hivva
         elif len(args) == 1:
@@ -43,6 +43,9 @@ class MainPyomo(object):
         if len(args)==0:
             ExcelWriter.pyomoTime(t2-t1)
         
+        if Tools.Debug:
+            model.write(Root.resources() + 'problem.lp', io_options={'symbolic_solver_labels':True})
+
         results = opt.solve(model)
         
         try:
@@ -56,7 +59,7 @@ class MainPyomo(object):
                 ExcelWriter.exception("Unbounded problem: epsilon should not equal 0.")
             elif type(e) == ApplicationError:
                 ExcelWriter.exception("Unfeasible problem.")
-            traceback.format_exc()
+            traceback.format_exc()  # @UndefinedVariable
 
                 #ExcelWriter.exception("Unhandled exception:", e)
             return
@@ -73,10 +76,12 @@ class MainPyomo(object):
             print "Solve:       {0:0.3f} seconds".format(t3-t2)
         
         if len(args) == 0:
-            f = open(Root.resources() + "/yxc.txt", 'w')
-            print >>f, results
-            ExcelWriter.write(model, results, (t1-t0,t2-t1))
-            Plotter.plotTotalEnergy(data, model)
+            if Tools.Debug:
+                f = open(Root.resources() + "/yxc.txt", 'w')
+                print >>f, results
+                Plotter.plotTotalEnergy(data, model).show()
+            ExcelWriter.write(model, results)
+            
         elif len(args) == 1:
             wb.close()
             return (model, results, data)
