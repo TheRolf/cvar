@@ -4,7 +4,6 @@ Created on 31 Mar 2016
 @author: Rolf
 '''
 import os
-from time import strftime
 import datetime
 
 class Tools(object):
