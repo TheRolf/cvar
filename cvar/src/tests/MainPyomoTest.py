@@ -7,23 +7,21 @@ import unittest
 
 from pyomo.opt.results.solver import SolverStatus, TerminationCondition
 
-from lib.pyomo.main_pyomo import MainPyomo
 from lib.pyomo.constraints.positive_part import PositivePart
+from lib.pyomo.main_pyomo import MainPyomo
 
 class Test(unittest.TestCase):
 
 
     def test_mainPyomo(self):
         PositivePart.X = True
-        model, result = MainPyomo.main('/../resources/test0.xlsm')[:-1]
+        model, result = MainPyomo.main('/../resources/test3.xlsm')[:-1]
         self.assertEquals(result.solver.status, SolverStatus.ok, \
                           "Incorrect solver status: '" + str(result.solver.status) + "', should be '" + str(SolverStatus.ok) + "'")
-        # a kov. sorokra hibat ir, de lefut
         self.assertEquals(result.solver.termination_condition, TerminationCondition.optimal, "Incorrect solver termination condition: '" + str(result.solver.termination_condition ) + "', should be '" + str(TerminationCondition.optimal) + "'")  # @UndefinedVariable
-        x_vars = [8.16248754389, 2.58554921488, 14.2582355634]
-        risk = 14292.1616
+        x_vars = [76.5632359701, 100.921071363, 60.5983878156]
+        risk = 6257531.47538
         for f in range(model.f()):
-            # TODO: 3. tizedesjegyben mar nem egyezik
             self.assertAlmostEquals(model.x_vars[f+1](), x_vars[f], places = 2, \
                                     msg = "Incorrect solution, x" + str(f+1) + " = " + 
                                     str(model.x_vars[f+1]()) + ", should be " + str(x_vars[f]))

@@ -34,6 +34,8 @@ class TestTools(unittest.TestCase):
                          "preferred: " + str(transposedArray) +
                          "\n   actual: " + str(Tools.Transpose(testArray)) ) 
 
+    def test_Logger(self):
+        print "TODO Logger Test"
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

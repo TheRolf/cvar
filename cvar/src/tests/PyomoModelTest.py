@@ -20,10 +20,10 @@ class TestPyomoModel(unittest.TestCase):
         self.data = Data()
         self.data.numberOfForwardProducts = 3
         self.data.numberOfHpfcVectors = 4
-        self.data.numberOfTimeIntervals = 24
+        self.data.numberOfTimePeriods = 24
         
         self.data.alpha = 0.8
-        self.data.epsilon0 = 0.01
+        self.data.eps0 = 0.01
         
         self.data.demand = Tools.ListToDict1D([12, 8, 10, 7, 7, 13, 8, 18, 21, 23, 21, 17, 19, 19, 17, 20, 23, 17, 23, 14, 12, 8, 13, 7])
         self.data.forwardCharVectors = Tools.ListToDict2D([[1 for i in range(24)],  # @UnusedVariable
@@ -44,22 +44,24 @@ class TestPyomoModel(unittest.TestCase):
 
     def test_variables(self):
 
-        self.assertEquals( self.model.x_vars.domain, Reals, \
-                           "Incorrect domain for 'x', expected: 'Reals', actual: '" + str(self.model.x_vars.domain) + "'")
         self.assertEquals( self.model.x_vars.index_set(), \
                            self.model.F, \
                            "Incorrect set for 'x', expected: '" + \
                            str(self.model.F) + "', actual: '" + \
                            str(self.model.x_vars.index_set()) + "'")
         for f in self.model.F:
+            self.assertEquals( self.model.x_vars[f].domain, Reals, \
+                               "Incorrect domain for x[" + str(f) + "], expected: 'Reals', actual: '" + str(self.model.x_vars[f].domain) + "'")
+
             self.assertEquals( self.model.x_vars[f].bounds, \
                                (None, None),
                                "Incorrect bounds for x[" + str(f) + "], expected: " + \
                                str((None, None)) + ", actual: " + \
                                str(self.model.x_vars[f].bounds) )
-            
-        self.assertEquals( self.model.u_vars.domain, NonNegativeReals, \
-                           "Incorrect domain for 'u', expected: 'NonNegativeReals', actual: '" + str(self.model.u_vars.domain) + "'")
+        
+        for s in self.model.S:    
+            self.assertEquals( self.model.u_vars[s].domain, NonNegativeReals, \
+                               "Incorrect domain for u[" + str(s) + "], expected: 'NonNegativeReals', actual: '" + str(self.model.u_vars[s].domain) + "'")
         self.assertEquals( self.model.u_vars.index_set(), \
                            self.model.S, \
                            "Incorrect set for 'u', expected: '" + \
@@ -80,10 +82,11 @@ class TestPyomoModel(unittest.TestCase):
                            "Incorrect bounds for 'L', expected: '(None, None)', actual: '" + str(self.model.L_var.bounds) + "'")
 
     def test_parameters(self):
-        self.assertEquals(value(self.model.h[None]), self.data.numberOfTimeIntervals, \
+        #print self.model.D_params[1]
+        self.assertEquals(value(self.model.t[None]), self.data.numberOfTimePeriods, \
                           "Incorrect value for parameter 'h'" + 
-                          ", expected: " + str(self.data.numberOfTimeIntervals) + 
-                          ", actual: " + str(value(self.model.h[None])) )
+                          ", expected: " + str(self.data.numberOfTimePeriods) + 
+                          ", actual: " + str(value(self.model.t[None])) )
         self.assertEquals(value(self.model.f[None]), self.data.numberOfForwardProducts, \
                           "Incorrect value for parameter 'f'" + 
                           ", expected: " + str(self.data.numberOfForwardProducts) + 
@@ -93,15 +96,15 @@ class TestPyomoModel(unittest.TestCase):
                           ", expected: " + str(self.data.numberOfHpfcVectors) + 
                           ", actual: " + str(value(self.model.s[None])) )
         
-        self.assertEquals((self.model.H.first(), self.model.H.last()), (1, 24), \
-                          "Incorrect value for set 'H', expected: (1, 24), actual: " + str((self.model.H.first(), self.model.H.last())) )
+        self.assertEquals((self.model.T.first(), self.model.T.last()), (1, 24), \
+                          "Incorrect value for set 'H', expected: (1, 24), actual: " + str((self.model.T.first(), self.model.T.last())) )
         self.assertEquals((self.model.F.first(), self.model.F.last()), (1, 3), \
                           "Incorrect value for set 'F', expected: (1, 3), actual: " + str((self.model.F.first(), self.model.F.last())) )
         self.assertEquals((self.model.S.first(), self.model.S.last()), (1, 4), \
                           "Incorrect value for set 'S', expected: (1, 4), actual: " + str((self.model.S.first(), self.model.S.last())) )
 
     def test_objective(self):
-        Risk = "L_var + 1.25*( u_vars[1] + u_vars[2] + u_vars[3] + u_vars[4] )"
+        Risk = "L_var + 0.25 * ( u_vars[1] + u_vars[2] + u_vars[3] + u_vars[4] ) / ( 1 - alpha_param )"
         self.assertEquals(str(self.model.Risk.expr), Risk, \
                           "Incorrect objective, expected:\n" + Risk + "\nactual:\n" + str(self.model.Risk.expr))
 

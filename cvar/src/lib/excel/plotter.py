@@ -11,9 +11,9 @@ class Plotter(object):
     @staticmethod
     def plotTotalEnergy(data, model):
         x = [value(item) for i, item in model.x_vars.items()]  # @UnusedVariable
-        energyFromProducts = [0] * data.numberOfTimeIntervals
+        energyFromProducts = [0] * data.numberOfTimePeriods
 
-        for t in range(data.numberOfTimeIntervals):
+        for t in range(data.numberOfTimePeriods):
             for f in range(data.numberOfForwardProducts):
                 energyFromProducts[t] += x[f]*data.forwardCharVectors[f+1, t+1]
         
@@ -24,8 +24,8 @@ class Plotter(object):
         pyplot.figure(1, figsize=(10, 5))
         pyplot.subplots_adjust(bottom=0.3)
 
-        pyplot.plot(data.hedgingPeriodNames, data.demandAsArray, 'b',
-                    data.hedgingPeriodNames, energyFromProducts, 'r')
+        pyplot.plot(data.timePeriodNames, data.demandAsArray, 'b',
+                    data.timePeriodNames, energyFromProducts, 'r')
         pyplot.xticks(fontsize=s, rotation=45)
         pyplot.yticks(fontsize=s) 
         

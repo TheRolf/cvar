@@ -20,15 +20,19 @@ class ExcelReader(object):
             return None
         
         data.alpha = ExcelReaderFunctions.importAlpha()
-        data.epsilon0 = ExcelReaderFunctions.importEpsilon()
+        data.eps0 = ExcelReaderFunctions.importEpsilon()
        
-        data.demand, data.numberOfTimeIntervals, data.demandAsArray = ExcelReaderFunctions.importDemand()
+        data.demand, data.numberOfTimePeriods, data.demandAsArray = ExcelReaderFunctions.importDemand()
         data.forwardCharVectors, data.numberOfForwardProducts = ExcelReaderFunctions.importForwardCharVectors()
         data.hpfcVectors, data.numberOfHpfcVectors = ExcelReaderFunctions.importHpfcVectors()
         data.forwardPrices = ExcelReaderFunctions.importForwardPrices()
         
-        data.hedgingPeriodNames = ExcelReaderFunctions.importHedgingPeriodNames()
-        data.forwardProductNames = ExcelReaderFunctions.importForwardProductNames()
+        data.timePeriodNames = ExcelReaderFunctions.importHedgingPeriodNames()
+        data.forwardNames = ExcelReaderFunctions.importForwardProductNames()
+        
+        data.name = filename.split('\\')[-1].split('/')[-1]
+        
+        #data.initialise()
         if len(args) == 2:
             #wb.close()
             pass

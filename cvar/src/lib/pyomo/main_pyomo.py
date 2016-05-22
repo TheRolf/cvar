@@ -36,8 +36,13 @@ class MainPyomo(object):
             ExcelWriter.excelTime(t1-t0)
         
         model = Initialiser.init(data)
-        opt = SolverFactory("gurobi")
-        opt.options["LogFile"] = Root.resources() + "gurobi_log.txt"
+        
+        opt = SolverFactory("asl", executable="xpress")
+        opt.options["logfile"] = Root.resources() + "xpress_log.txt"
+        Tools.Logger(Root.resources() + "xpress_log.txt", model.name)
+        
+        #opt = SolverFactory("gurobi")
+        #opt.options["LogFile"] = Root.resources() + "gurobi_log.txt"
         
         t2 = time()
         if len(args)==0:

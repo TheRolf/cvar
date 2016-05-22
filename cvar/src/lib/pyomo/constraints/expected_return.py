@@ -14,7 +14,7 @@ class ExpectedReturn(object):
             return mean([model.y_params[s,t] for s in model.S])
         
         def V1():
-            return sum( (1 + model.epsilon_param*model.x_vars[f])*model.P0_params[f]*model.x_vars[f] \
+            return sum( (1 + model.eps0_param*model.x_vars[f])*model.P0_params[f]*model.x_vars[f] \
                         for f in model.F )
         def VT():
             return sum(  mean_of_hpfc(model, t)*(sum( model.A_params[f,t]*model.x_vars[f] for f in model.F ) - model.D_params[t])\
